@@ -10,6 +10,7 @@ const navLinks = [
   { href: "/gallery", label: "Gallery" },
   { href: "/shop", label: "Shop" },
   { href: "/order", label: "Custom Order" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Nav() {

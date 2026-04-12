@@ -71,7 +71,7 @@ export async function POST(req: Request) {
       })
     );
     await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL!,
+      from: process.env.RESEND_FROM_ORDERS!,
       to: customerEmail,
       subject: `We got your order request, ${firstName}!`,
       html,
@@ -98,7 +98,7 @@ export async function POST(req: Request) {
       })
     );
     await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL!,
+      from: process.env.RESEND_FROM_ORDERS!,
       to: process.env.RESEND_TO_EMAIL!,
       subject: `New Order Request — ${productType} from ${customerName}`,
       html,
