@@ -3,8 +3,15 @@ import { ShopClient } from "@/components/public/ShopClient";
 import type { ItemWithTags } from "@/types";
 
 export const metadata = {
-  title: "Shop — Barlow Custom Engravings",
-  description: "Shop handcrafted custom engravings — wallets, keychains, dog tags, and more.",
+  title: "Shop",
+  description: "Shop handcrafted custom laser-engraved leather wallets, keychains, dog tags, and wood panels. Made in El Paso, TX. Starting at $10.",
+  keywords: ["buy custom engraving El Paso", "engraved leather wallet for sale", "personalized keychain El Paso", "custom dog tag El Paso TX"],
+  alternates: { canonical: "/shop" },
+  openGraph: {
+    title: "Shop — Barlow Custom Engravings",
+    description: "Shop handcrafted custom laser engravings. Starting at $10. Made in El Paso, TX.",
+    url: "/shop",
+  },
 };
 
 export default async function ShopPage() {

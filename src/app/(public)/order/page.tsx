@@ -2,8 +2,15 @@ import { OrderPageForm } from "@/components/public/OrderPageForm";
 import { prisma } from "@/lib/prisma";
 
 export const metadata = {
-  title: "Custom Order — Barlow Custom Engravings",
-  description: "Submit a custom engraving order request. We'll get back to you within 24 hours.",
+  title: "Custom Order",
+  description: "Request a custom laser engraving in El Paso, TX. Wallets, keychains, dog tags, wood panels, and more. Submit your idea and we'll respond within 24 hours.",
+  keywords: ["custom engraving order El Paso", "personalized laser engraving request", "custom leather wallet order", "engraving gift order El Paso TX"],
+  alternates: { canonical: "/order" },
+  openGraph: {
+    title: "Place a Custom Order — Barlow Custom Engravings",
+    description: "Request a custom laser engraving in El Paso, TX. We respond within 24 hours.",
+    url: "/order",
+  },
 };
 
 export default async function OrderPage() {

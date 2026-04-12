@@ -1,8 +1,15 @@
 import { ContactForm } from "@/components/public/ContactForm";
 
 export const metadata = {
-  title: "Contact — Barlow Custom Engravings",
-  description: "Get in touch with Barlow Custom Engravings. Questions, custom requests, or just want to say hi.",
+  title: "Contact",
+  description: "Contact Barlow Custom Engravings in El Paso, TX. Questions about custom orders, pricing, or finding us at the Swap Meet — we'd love to hear from you.",
+  keywords: ["contact Barlow Custom Engravings", "custom engraving El Paso contact", "El Paso Swap Meet engraving"],
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact — Barlow Custom Engravings",
+    description: "Get in touch with Barlow Custom Engravings in El Paso, TX.",
+    url: "/contact",
+  },
 };
 
 export default function ContactPage() {

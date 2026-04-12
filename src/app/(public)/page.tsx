@@ -20,15 +20,52 @@ async function getHomeData() {
   return { offerings, featuredItems };
 }
 
+const localBusinessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Barlow Custom Engravings",
+  description:
+    "Custom laser engravings on leather wallets, keychains, dog tags, and wood panels. Handcrafted in El Paso, Texas.",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.barlowcustomengravings.com",
+  telephone: process.env.NEXT_PUBLIC_PHONE,
+  email: process.env.NEXT_PUBLIC_EMAIL,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "El Paso",
+    addressRegion: "TX",
+    addressCountry: "US",
+  },
+  areaServed: {
+    "@type": "City",
+    name: "El Paso",
+  },
+  priceRange: "$",
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Custom Engraving Products",
+    itemListElement: [
+      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Bifold Leather Wallet" } },
+      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Trifold Leather Wallet" } },
+      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Keychain" } },
+      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Dog Tag" } },
+      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Wood Art Panel" } },
+    ],
+  },
+};
+
 export default async function HomePage() {
   const { offerings, featuredItems } = await getHomeData();
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+      />
       {/* Hero */}
       <section className="relative min-h-screen flex items-center overflow-hidden grid-texture leather-texture">
         {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-bg via-bg to-surface-raised pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-br from-bg via-bg to-surface-raised pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-24 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -41,7 +78,7 @@ export default async function HomePage() {
 
               <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-semibold text-text leading-[1.05]">
                 Every piece,{" "}
-                <em className="text-leather-light not-italic italic">
+                <em className="text-leather-light" style={{ fontStyle: "italic" }}>
                   engraved
                 </em>{" "}
                 with intention.

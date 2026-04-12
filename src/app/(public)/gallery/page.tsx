@@ -3,8 +3,15 @@ import { GalleryClient } from "@/components/public/GalleryClient";
 import type { ItemWithTags } from "@/types";
 
 export const metadata = {
-  title: "Gallery — Barlow Custom Engravings",
-  description: "Browse all of our custom engraved work — for sale, sold, and gallery pieces.",
+  title: "Gallery",
+  description: "Browse our portfolio of custom laser-engraved leather wallets, keychains, dog tags, and wood panels made in El Paso, TX. New pieces added regularly.",
+  keywords: ["custom engraving gallery", "laser engraving portfolio El Paso", "engraved leather wallet", "custom gifts El Paso TX"],
+  alternates: { canonical: "/gallery" },
+  openGraph: {
+    title: "Gallery — Barlow Custom Engravings",
+    description: "Browse our portfolio of custom laser-engraved work made in El Paso, TX.",
+    url: "/gallery",
+  },
 };
 
 export default async function GalleryPage() {

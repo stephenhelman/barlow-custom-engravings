@@ -10,7 +10,30 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const item = await prisma.item.findUnique({ where: { id } });
   if (!item) return {};
-  return { title: `${item.title} — Barlow Custom Engravings` };
+
+  const description = item.description
+    ? `${item.description} — Custom laser engraving by Barlow Custom Engravings in El Paso, TX.`
+    : `${item.title} — Custom laser engraving handcrafted in El Paso, TX by Barlow Custom Engravings.`;
+
+  const images = item.images[0] ? [{ url: item.images[0], alt: item.title }] : [];
+
+  return {
+    title: item.title,
+    description,
+    alternates: { canonical: `/shop/${id}` },
+    openGraph: {
+      title: `${item.title} — Barlow Custom Engravings`,
+      description,
+      url: `/shop/${id}`,
+      images,
+    },
+    twitter: {
+      card: images.length ? "summary_large_image" : "summary",
+      title: `${item.title} — Barlow Custom Engravings`,
+      description,
+      images: images.map((i) => i.url),
+    },
+  };
 }
 
 export default async function ShopItemPage({ params }: { params: Promise<{ id: string }> }) {
