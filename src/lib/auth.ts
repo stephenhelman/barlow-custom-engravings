@@ -43,5 +43,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (session.user) session.user.id = token.id as string;
       return session;
     },
+    authorized({ auth: session, request: { nextUrl } }) {
+      const isLoggedIn = !!session?.user;
+      const isLoginPage = nextUrl.pathname === "/admin/login";
+
+      if (isLoginPage) {
+        // Already logged in — send to dashboard
+        if (isLoggedIn) return Response.redirect(new URL("/admin/dashboard", nextUrl));
+        return true;
+      }
+
+      // All other /admin/* routes require auth
+      return isLoggedIn;
+    },
   },
 });
