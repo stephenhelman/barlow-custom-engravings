@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Item {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  status      ItemStatus  @default(FOR_SALE)
+  contentType ContentType @default(PHYSICAL_ITEM)
+  price       Decimal?
+  images      String[]
+  tags        ItemTag[]
+  orders      Order[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Tag {
+  id       String      @id @default(cuid())
+  name     String      @unique
+  category TagCategory
+  items    ItemTag[]
+}
+
+model ItemTag {
+  item   Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId String
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId  String
+
+  @@id([itemId, tagId])
+}
+
+model Offering {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Decimal
+  unit        String   @default("each")
+  active      Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  customerName    String
+  customerEmail   String
+  customerPhone   String?
+  productType     String
+  engravingText   String?
+  description     String
+  referenceItemId String?
+  referenceItem   Item?       @relation(fields: [referenceItemId], references: [id])
+  referenceImages String[]
+  status          OrderStatus @default(NEW)
+  adminNotes      String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+enum ItemStatus {
+  FOR_SALE
+  SOLD
+}
+
+enum ContentType {
+  PHYSICAL_ITEM
+  GALLERY_ONLY
+  INSPIRATION
+}
+
+enum TagCategory {
+  TYPE
+  THEME
+}
+
+enum OrderStatus {
+  NEW
+  QUOTED
+  IN_PROGRESS
+  COMPLETED
+  PAID
+  CANCELLED
+}
