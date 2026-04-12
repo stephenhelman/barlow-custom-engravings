@@ -8,7 +8,9 @@ export default async function OfferingsPage() {
   const offerings = raw.map((o) => ({ ...o, price: Number(o.price) }));
   return (
     <div>
-      <h1 className="font-display text-2xl font-semibold text-text mb-6">Offerings & Pricing</h1>
+      <h1 className="font-display text-2xl font-semibold text-text mb-6">
+        Offerings & Pricing
+      </h1>
       <OfferingsClient initialOfferings={offerings} />
     </div>
   );
