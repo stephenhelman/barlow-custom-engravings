@@ -13,12 +13,16 @@ export async function middleware(req: NextRequest) {
 
   // Unauthenticated on a protected route → go to login
   if (!isAuthenticated && !isLoginPage) {
+    console.log(req.url);
+    console.log(new URL("/admin/login", req.url));
     return NextResponse.redirect(new URL("/admin/login", req.url));
   }
 
   // Already authenticated, no need to see the login page
   if (isAuthenticated && isLoginPage) {
-    return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+    console.log(req.url);
+    console.log(new URL("/admin/dashboard", req.url));
+    return NextResponse.redirect(new URL("/admin", req.url));
   }
 
   return NextResponse.next();
