@@ -1,23 +1,28 @@
-import { auth } from "@/lib/auth";
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export default auth((req) => {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-
-  const isAdminRoute = pathname.startsWith("/admin");
   const isLoginPage = pathname === "/admin/login";
-  const isAuthenticated = !!req.auth;
 
-  if (isAdminRoute && !isLoginPage && !isAuthenticated) {
+  const token = await getToken({
+    req,
+    secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  });
+  const isAuthenticated = !!token;
+
+  // Unauthenticated on a protected route → go to login
+  if (!isAuthenticated && !isLoginPage) {
     return NextResponse.redirect(new URL("/admin/login", req.url));
   }
 
-  if (isLoginPage && isAuthenticated) {
+  // Already authenticated, no need to see the login page
+  if (isAuthenticated && isLoginPage) {
     return NextResponse.redirect(new URL("/admin/dashboard", req.url));
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: ["/admin/:path*"],

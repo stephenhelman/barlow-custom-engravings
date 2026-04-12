@@ -131,10 +131,14 @@ export function OfferingsClient({ initialOfferings }: { initialOfferings: Offeri
                 <td className="px-4 py-3 text-center">
                   <button
                     onClick={() => toggleActive(o.id, !o.active)}
-                    className={`w-9 h-5 rounded-full transition-colors relative ${o.active ? "bg-leather" : "bg-text-faint"}`}
+                    style={{ transition: "background-color 0.2s" }}
+                    className={`relative inline-flex items-center w-9 h-5 rounded-full shrink-0 ${o.active ? "bg-leather" : "bg-border"}`}
                     aria-label={o.active ? "Disable" : "Enable"}
                   >
-                    <span className={`absolute top-0.5 w-4 h-4 bg-bg rounded-full transition-transform ${o.active ? "translate-x-4" : "translate-x-0.5"}`} />
+                    <span
+                      style={{ transition: "transform 0.2s", transform: o.active ? "translateX(18px)" : "translateX(2px)" }}
+                      className="block w-4 h-4 bg-white rounded-full shadow"
+                    />
                   </button>
                 </td>
                 <td className="px-4 py-3 text-right">
