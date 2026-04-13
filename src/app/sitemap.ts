@@ -13,6 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const items = await prisma.item.findMany({
+    where: { contentType: "PHYSICAL_ITEM" },
     select: { id: true, updatedAt: true },
     orderBy: { updatedAt: "desc" },
   });

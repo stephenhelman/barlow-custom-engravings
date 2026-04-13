@@ -20,41 +20,54 @@ async function getHomeData() {
   return { offerings, featuredItems };
 }
 
-const localBusinessJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  name: "Barlow Custom Engravings",
-  description:
-    "Custom laser engravings on leather wallets, keychains, dog tags, and wood panels. Handcrafted in El Paso, Texas.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.barlowcustomengravings.com",
-  telephone: process.env.NEXT_PUBLIC_PHONE,
-  email: process.env.NEXT_PUBLIC_EMAIL,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "El Paso",
-    addressRegion: "TX",
-    addressCountry: "US",
-  },
-  areaServed: {
-    "@type": "City",
-    name: "El Paso",
-  },
-  priceRange: "$",
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Custom Engraving Products",
-    itemListElement: [
-      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Bifold Leather Wallet" } },
-      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Trifold Leather Wallet" } },
-      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Keychain" } },
-      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Dog Tag" } },
-      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Wood Art Panel" } },
-    ],
-  },
-};
-
 export default async function HomePage() {
   const { offerings, featuredItems } = await getHomeData();
+
+  const pricedOfferings = offerings.map((o) => Number(o.price)).filter((p) => p > 0);
+  const lowPrice = pricedOfferings.length > 0 ? String(Math.min(...pricedOfferings)) : "10";
+  const highPrice = pricedOfferings.length > 0 ? String(Math.max(...pricedOfferings)) : "30";
+  const offerCount = String(offerings.length > 0 ? offerings.length : 4);
+
+  const localBusinessJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "Barlow Custom Engravings",
+    description:
+      "Custom laser engravings on leather wallets, keychains, dog tags, and wood panels. Handcrafted in El Paso, Texas.",
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.barlowcustomengravings.com",
+    telephone: process.env.NEXT_PUBLIC_PHONE,
+    email: process.env.NEXT_PUBLIC_EMAIL,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "El Paso",
+      addressRegion: "TX",
+      addressCountry: "US",
+    },
+    areaServed: {
+      "@type": "City",
+      name: "El Paso",
+    },
+    priceRange: "$",
+    offers: {
+      "@type": "AggregateOffer",
+      lowPrice,
+      highPrice,
+      priceCurrency: "USD",
+      offerCount,
+      description: "Custom engraved leather wallets, wood panels, keychains, and dog tags",
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Custom Engraving Products",
+      itemListElement: [
+        { "@type": "Offer", itemOffered: { "@type": "Product", name: "Bifold Leather Wallet" } },
+        { "@type": "Offer", itemOffered: { "@type": "Product", name: "Trifold Leather Wallet" } },
+        { "@type": "Offer", itemOffered: { "@type": "Product", name: "Keychain" } },
+        { "@type": "Offer", itemOffered: { "@type": "Product", name: "Dog Tag" } },
+        { "@type": "Offer", itemOffered: { "@type": "Product", name: "Wood Art Panel" } },
+      ],
+    },
+  };
 
   return (
     <>
